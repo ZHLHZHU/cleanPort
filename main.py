@@ -3,6 +3,7 @@ import re
 import signal
 import psutil
 import configparser
+import sys
 
 
 def get_ports(port_str):
@@ -36,16 +37,17 @@ target_ports = 7000
 quiet = False"""
     with open("cleanPort.ini", "wb") as f:
         f.write(s.encode("utf8"))
+        f.flush()
+    print("没有找到配置文件，已经自动创建在程序目录下：cleanPort.ini")
+    print("请配置后重新运行本程序,回车键退出")
+    input()
+    sys.exit(0)
 
 
 if __name__ == '__main__':
     # 没有配置文件，自动创建一个
     if not os.path.exists("cleanPort.ini"):
         creat_conf()
-        print("没有找到配置文件，已经自动创建在程序目录下：cleanPort.ini")
-        print("请配置后重新运行本程序,回车键退出")
-        input()
-        exit(0)
 
     # 读取配置文件
     config = configparser.ConfigParser()
@@ -72,3 +74,4 @@ if __name__ == '__main__':
 
     print("\n执行完毕,回车退出")
     input()
+    sys.exit(0)
